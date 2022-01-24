@@ -78,10 +78,10 @@ int main(int argc, char** argv)
   LinearTrajectory trajectory = LinearTrajectory(poses);
 
   Eigen::Matrix4d mat4_hand_eye;
-  mat4_hand_eye <<  -0.0160003, -0.999846, -0.00716287, -0.0351382,
-                    -0.9998, 0.0159127, 0.0121157, 0.0594199,
-                    -0.0119998, 0.00735529, -0.999901, -0.0325031,
-                    00000000000, 00000000000, 00000000000, 00000000001;
+  mat4_hand_eye << -0.516976, -0.295714, 0.803299, 0.058292,
+                   -0.855946, 0.189111, -0.481242, -0.0335537,
+                   -0.00960316, -0.936371, -0.350881, -0.134856,
+                   0, 0, 0, 1;
   geometry_utils::Transformation T_hand_eye(mat4_hand_eye);
   trajectory.applyTransformationRight(T_hand_eye);
 
