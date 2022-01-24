@@ -60,10 +60,30 @@ int main(int argc, char** argv)
 
   // Create a camera object from the loaded intrinsic parameters
   image_geometry::PinholeCameraModel cam;
+  // load instrinsic params for left event camera from TUM-VIE calib-B
+  camera_info_msg.K = {1051.317071409903, 0, 636.1348547903337,
+                       0, 1051.795200980702, 265.7059221322115,
+                       0, 0, 1};
+  camera_info_msg.D = {-0.1310470416470763, 0.07279844505754081, -0.2110929882504765, 0.1849342644697886};
+  camera_info_msg.P = {1051.317016601562, 0, 636.1348547903337, 0,
+                       0, 1051.795200980702, 265.7059221322115, 0,
+                       0, 0, 1, 0};
+  camera_info_msg.R = {1, 0, 0,
+                       0, 1, 0,
+                       0, 0, 1};
+
   cam.fromCameraInfo(camera_info_msg);
 
   // Use linear interpolation to compute the camera pose for each event
   LinearTrajectory trajectory = LinearTrajectory(poses);
+
+  Eigen::Matrix4d mat4_hand_eye;
+  mat4_hand_eye <<  -0.0160003, -0.999846, -0.00716287, -0.0351382,
+                    -0.9998, 0.0159127, 0.0121157, 0.0594199,
+                    -0.0119998, 0.00735529, -0.999901, -0.0325031,
+                    00000000000, 00000000000, 00000000000, 00000000001;
+  geometry_utils::Transformation T_hand_eye(mat4_hand_eye);
+  trajectory.applyTransformationRight(T_hand_eye);
 
   // Set the position of the reference view in the middle of the trajectory
   geometry_utils::Transformation T0_, T1_;

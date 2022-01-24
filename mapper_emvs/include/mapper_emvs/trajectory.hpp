@@ -54,6 +54,14 @@ public:
     return true;
   }
 
+  void applyTransformationRight(const geometry_utils::Transformation& T)
+  {
+    for(auto it : poses_)
+    {
+      poses_[it.first] = it.second * T;
+    }
+  }
+
 protected:
   PoseMap poses_;
 
